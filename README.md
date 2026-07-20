@@ -232,7 +232,7 @@ Planned enhancements include:
 
 Aspiring **Data Engineer** focused on building production-quality analytics projects that combine SQL, business thinking, documentation, and software engineering best practices.
 
-📫 GitHub: https://github.com/YOUR_GITHUB_USERNAME
+📫 GitHub: https://github.com/campa-dev
 
 ---
 
