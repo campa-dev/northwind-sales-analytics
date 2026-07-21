@@ -58,9 +58,11 @@ This project is designed to answer questions such as:
 
 # 🗄 Data Model
 
-The project uses the **Northwind** sample database.
+This project uses the classic **Northwind** sample database, a fictional trading company frequently used for learning relational databases and SQL. The schema contains customers, orders, products, suppliers, employees, shippers, and related entities that support realistic sales analytics scenarios. :contentReference[oaicite:2]{index=2}
 
-The following Entity Relationship Diagram illustrates the core tables used throughout the project.
+The reports in this repository primarily analyze relationships between **customers**, **orders**, **order_details**, **products**, **employees**, and **suppliers**.
+
+The Entity Relationship Diagram below illustrates the database schema used throughout the project.
 
 ![Northwind ER Diagram](images/northwind_erd.png)
 
