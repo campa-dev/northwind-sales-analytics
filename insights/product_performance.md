@@ -32,32 +32,47 @@ One row per product.
 
 ## Data Sources
 
+### Reporting Layer
+
+- sales_reporting (SQL View)
+
+### Underlying Source Tables
+
+- orders
+- order_details
 - products
 - categories
-- order_details
-- orders
 
 ---
 
 ## Methodology
 
-Revenue was calculated using the following business definition:
+This report is built on top of the `sales_reporting` reusable reporting layer.
 
-Revenue = Unit Price × Quantity × (1 − Discount)
+The reporting layer centralizes:
 
-Products were aggregated across all historical orders.
+- Sales transaction data
+- Product information
+- Category information
+- Standardized revenue calculations
 
-Revenue ranking was calculated using the DENSE_RANK() window function.
+The report aggregates sales transactions to the product level and calculates:
+
+- Total Revenue
+- Total Orders
+- Units Sold
+
+Products are ranked using the `DENSE_RANK()` window function based on total historical revenue.
 
 ---
 
 ## SQL Concepts Used
 
-- INNER JOIN
+- SQL Views
+- Common Table Expressions (CTEs)
 - Aggregate Functions
 - SUM()
 - COUNT(DISTINCT)
-- Common Table Expressions (CTEs)
 - Window Functions
 - DENSE_RANK()
 
@@ -73,8 +88,11 @@ Revenue ranking was calculated using the DENSE_RANK() window function.
 
 ## Business Value
 
-This report enables Product Managers and Sales Leadership to identify high-performing products, prioritize inventory planning, and support strategic product decisions.
+## Business Value
 
+This report enables Product Managers and Sales Leadership to identify high-performing products and support inventory, pricing, and product portfolio decisions.
+
+From an engineering perspective, the report leverages a reusable reporting layer (`sales_reporting`) that centralizes business logic and promotes consistent metrics across analytical reports.
 ---
 
 ## Limitations
@@ -87,6 +105,14 @@ This report enables Product Managers and Sales Leadership to identify high-perfo
 
 ## Next Steps
 
-- Analyze product performance by category.
-- Build a reusable reporting layer using SQL Views.
-- Extend analysis with profitability metrics if cost data becomes available.
+- Build additional Product Analytics reports using the `sales_reporting` model.
+- Extend the reusable reporting layer as new business requirements emerge.
+- Continue standardizing business metrics across the analytics project.
+
+## Engineering Notes
+
+This report was initially developed using direct joins to the transactional tables.
+
+As the project evolved, a reusable SQL View (`sales_reporting`) was introduced to centralize sales business logic and standardize revenue calculations.
+
+This refactoring reduced query complexity, improved maintainability, and established a reusable reporting layer for future analytical reports.

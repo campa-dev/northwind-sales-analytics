@@ -11,10 +11,10 @@ Report Grain:
 One row per product.
 
 Business Rules:
-- Revenue is calculated after discounts.
-- Units Sold represents the total quantity sold across all orders.
+- Revenue is calculated after discounts using the sales_reporting model.
+- Units Sold represents the total quantity sold across all historical orders.
 - Total Orders counts distinct orders containing each product.
-- Products are ranked by total historical revenue in descending order.
+- Products are ranked by total historical revenue.
 ===============================================================================
 */
 
@@ -37,7 +37,7 @@ WITH product_metrics AS (
         -- Total quantity of units sold across all orders.
         SUM(od.quantity) AS units_sold
 
-    FROM products p
+    FROM sales_reporting
 
     INNER JOIN categories c
         ON c.category_id = p.category_id
