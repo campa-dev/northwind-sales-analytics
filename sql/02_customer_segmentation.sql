@@ -27,8 +27,7 @@ WITH customer_metrics AS (
  		COALESCE(
                 SUM((od.unit_price * od.quantity) * (1 - od.discount)),
                 0
-            ),
-            2
+            )
         AS total_revenue,
 
         COUNT(DISTINCT o.order_id) AS total_orders
