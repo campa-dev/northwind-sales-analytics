@@ -10,9 +10,11 @@
 
 </p>
 
-> A professional **Data Engineering portfolio project** built with **PostgreSQL** using the **Northwind** sample database.
+> A professional **Data Engineering and Analytics Engineering portfolio project** built with **PostgreSQL** using the **Northwind** sample database.
 
-This repository simulates the work of a **Data Engineer** supporting business stakeholders by designing analytical reports, documenting business logic, and transforming raw sales data into meaningful business insights.
+This repository simulates the work of a **Data Engineer / Analytics Engineer** supporting business stakeholders by transforming raw transactional data into reusable analytical models, production-ready SQL reports, and business insights.
+
+Rather than focusing on SQL syntax alone, this project follows the workflow commonly used by modern analytics teams: understanding business requirements, designing reusable data models, producing analytical reports, documenting business logic, and maintaining version-controlled deliverables.
 
 ---
 
@@ -24,23 +26,28 @@ They ask questions like:
 
 - How is the company performing?
 - Which customers generate the most revenue?
-- Which products are driving sales?
-- Which markets are growing?
+- Which products drive sales?
+- Which product categories contribute the most revenue?
+- Is revenue concentrated in a few products or distributed across the portfolio?
+- Which employees and countries generate the highest sales?
 
-The objective of this project is to answer those questions through well-designed SQL reports while following professional software engineering practices.
+The objective of this project is to answer those business questions through production-ready SQL while following professional Data Engineering and Analytics Engineering practices.
 
 ---
 
 # 💼 Business Objectives
 
-This project is designed to answer questions such as:
+This repository is designed to support business stakeholders by answering questions such as:
 
 - How is the business performing overall?
 - Who are our highest-value customers?
-- Which products generate the most revenue?
+- Which products generate the highest revenue?
+- Which products sell the greatest number of units?
+- Which product categories perform best?
+- How is revenue distributed across the product portfolio?
 - Which sales representatives perform best?
 - Which countries contribute the most sales?
-- How efficiently are customer orders being fulfilled?
+- How efficiently are customer orders fulfilled?
 
 ---
 
@@ -49,7 +56,7 @@ This project is designed to answer questions such as:
 | Technology | Purpose |
 |------------|---------|
 | PostgreSQL | Relational Database |
-| SQL | Data Analysis & Reporting |
+| SQL | Analytics & Reporting |
 | Git | Version Control |
 | GitHub | Portfolio Hosting |
 | Cursor | Development Environment |
@@ -60,18 +67,41 @@ This project is designed to answer questions such as:
 
 This project uses the classic **Northwind** sample database, a fictional trading company frequently used for learning relational databases and SQL.
 
-The reports in this repository primarily analyze relationships between:
+The reports primarily analyze relationships between:
 
 - Customers
 - Orders
 - Order Details
 - Products
+- Categories
 - Employees
 - Suppliers
 
-The Entity Relationship Diagram below illustrates the database schema used throughout the project.
+The Entity Relationship Diagram below illustrates the schema used throughout the project.
 
 ![Northwind ER Diagram](images/northwind_erd.png)
+
+---
+
+# 🏗 Reusable Reporting Layer
+
+Beginning with **Milestone 3**, this project introduces a reusable analytical model called **`sales_reporting`**.
+
+Instead of repeatedly joining transactional tables and recalculating revenue inside every report, business logic is centralized within a reusable SQL View.
+
+The reporting layer includes:
+
+- Transaction-level sales records
+- Revenue calculated after discounts
+- Customer information
+- Product information
+- Category information
+- Employee information
+- Order information
+
+Business reports are built on top of this reusable reporting model, improving readability, maintainability, and consistency across the repository.
+
+This approach reflects modern **Analytics Engineering** practices by separating reusable business logic from report-specific transformations.
 
 ---
 
@@ -90,22 +120,38 @@ northwind-sales-analytics/
 │   ├── northwind_erd.png
 │   ├── executive_sales_overview_result.png
 │   ├── customer_segmentation_result.png
-│   └── top_customers_analysis_result.png
+│   ├── top_customers_analysis_result.png
+│   ├── product_performance_result.png
+│   ├── top_selling_products_result.png
+│   ├── product_category_performance_result.png
+│   └── product_revenue_distribution_result.png
 │
 ├── insights/
 │   ├── executive_sales_overview.md
 │   ├── customer_segmentation.md
-│   └── top_customers_analysis.md
+│   ├── top_customers_analysis.md
+│   ├── product_performance.md
+│   ├── top_selling_products.md
+│   ├── product_category_performance.md
+│   └── product_revenue_distribution.md
 │
-└── sql/
-    ├── 01_executive_sales_overview.sql
-    ├── 02_customer_segmentation.sql
-    └── 03_top_customers.sql
+├── sql/
+│   ├── 01_executive_sales_overview.sql
+│   ├── 02_customer_segmentation.sql
+│   ├── 03_top_customers.sql
+│   ├── 04_product_performance.sql
+│   ├── 05_top_selling_products.sql
+│   ├── 06_product_category_performance.sql
+│   └── 07_product_revenue_distribution.sql
+│
+└── sql-models/
+    └── sales_reporting.sql
 ```
 
 | Folder | Purpose |
 |---------|---------|
 | **sql/** | Production-ready SQL reports |
+| **sql-models/** | Reusable analytical models and reporting layers |
 | **insights/** | Business explanations and analytical conclusions |
 | **images/** | Report previews, ER diagrams, and project visuals |
 | **docs/** | Supporting documentation |
@@ -118,40 +164,58 @@ northwind-sales-analytics/
 |--------|-------------------|:------:|
 | Executive Sales Overview | How is the company performing overall? | ✅ |
 | Customer Segmentation | Who are our most valuable customers? | ✅ |
-| Top Customers Analysis | Who are our highest-value customers? | ✅ |
-| Product Performance | Which products generate the most revenue? | ⏳ |
-| Employee Performance | Which sales representatives perform best? | ⏳ |
-| Country Sales Analysis | Which markets generate the most revenue? | ⏳ |
-| Shipping Analysis | How efficient is the shipping process? | ⏳ |
-| Executive Dashboard | Executive KPI Summary | ⏳ |
+| Top Customers Analysis | Who are Northwind's highest-value customers? | ✅ |
+| Product Performance Analysis | Which products generate the highest revenue and sales volume? | ✅ |
+| Top Selling Products | Which products sell the greatest number of units? | ✅ |
+| Product Category Performance | Which product categories generate the highest revenue? | ✅ |
+| Product Revenue Distribution | How is revenue distributed across the product portfolio? | ✅ |
+| Employee & Sales Performance | Which sales representatives perform best? | ⏳ |
+| Geographic Sales Analytics | Which countries contribute the most sales? | ⏳ |
+| Shipping & Operational Analytics | How efficient is the shipping process? | ⏳ |
+| Executive Dashboard & Business Intelligence | Executive KPI Dashboard | ⏳ |
 
 ---
 
 # 🔄 Project Workflow
 
 ```text
-Business Question
+Business Request
         │
         ▼
 Requirements Gathering
         │
         ▼
+Business Questions
+        │
+        ▼
 Report Design
+        │
+        ▼
+Report Grain
+        │
+        ▼
+Metric Definition
+        │
+        ▼
+Data Modeling
         │
         ▼
 SQL Development
         │
         ▼
-Business Validation
+Code Review
         │
         ▼
 Business Insights
         │
         ▼
+Git Version Control
+        │
+        ▼
 GitHub Documentation
 ```
 
-This workflow reflects how analytical reporting is commonly developed in professional Data Engineering and Analytics Engineering teams.
+This workflow mirrors how analytical reporting solutions are commonly developed in professional Data Engineering and Analytics Engineering teams.
 
 ---
 
@@ -215,7 +279,7 @@ This workflow reflects how analytical reporting is commonly developed in profess
 
 **Business Question**
 
-> Who are Northwind's Top 10 customers based on historical revenue?
+> Who are Northwind's highest-value customers based on historical revenue?
 
 ### KPIs
 
@@ -227,8 +291,8 @@ This workflow reflects how analytical reporting is commonly developed in profess
 
 ### SQL Concepts
 
-- INNER JOIN
 - Aggregate Functions
+- INNER JOIN
 - MIN()
 - MAX()
 - Common Table Expressions (CTEs)
@@ -241,6 +305,119 @@ This workflow reflects how analytical reporting is commonly developed in profess
 
 ---
 
+## 4. Product Performance Analysis
+
+**Business Question**
+
+> Which products generate the highest revenue and sales volume across all historical orders?
+
+### KPIs
+
+- Total Revenue
+- Total Orders
+- Units Sold
+- Revenue Rank
+
+### SQL Concepts
+
+- SQL Views
+- Aggregate Functions
+- Common Table Expressions (CTEs)
+- SUM()
+- COUNT(DISTINCT)
+- DENSE_RANK()
+
+### Report Preview
+
+![Product Performance Analysis](images/product_performance_result.png)
+
+---
+
+## 5. Top Selling Products
+
+**Business Question**
+
+> Which products sell the greatest number of units?
+
+### KPIs
+
+- Units Sold
+- Total Orders
+- Sales Rank
+
+### SQL Concepts
+
+- SQL Views
+- Aggregate Functions
+- Common Table Expressions (CTEs)
+- SUM()
+- COUNT(DISTINCT)
+- DENSE_RANK()
+
+### Report Preview
+
+![Top Selling Products](images/top_selling_products_result.png)
+
+---
+
+## 6. Product Category Performance
+
+**Business Question**
+
+> Which product categories generate the highest revenue?
+
+### KPIs
+
+- Total Revenue
+- Units Sold
+- Total Orders
+- Revenue Rank
+
+### SQL Concepts
+
+- SQL Views
+- Aggregate Functions
+- Common Table Expressions (CTEs)
+- SUM()
+- COUNT(DISTINCT)
+- DENSE_RANK()
+
+### Report Preview
+
+![Product Category Performance](images/product_category_performance_result.png)
+
+---
+
+## 7. Product Revenue Distribution
+
+**Business Question**
+
+> How is revenue distributed across Northwind's product portfolio?
+
+### KPIs
+
+- Total Revenue
+- Revenue Percentage
+- Cumulative Revenue Percentage
+- Total Orders
+- Units Sold
+- Revenue Rank
+
+### SQL Concepts
+
+- SQL Views
+- Aggregate Functions
+- Common Table Expressions (CTEs)
+- Window Functions
+- SUM() OVER()
+- DENSE_RANK()
+
+### Report Preview
+
+![Product Revenue Distribution](images/product_revenue_distribution_result.png)
+
+---
+
 # 🧠 Skills Demonstrated
 
 ## SQL
@@ -249,49 +426,66 @@ This workflow reflects how analytical reporting is commonly developed in profess
 - INNER JOIN
 - LEFT JOIN
 - Common Table Expressions (CTEs)
+- SQL Views
 - Window Functions
+- Window Ranking Functions
+- Running Totals
 - CASE Expressions
-- COUNT(DISTINCT)
 - COALESCE
-- Data Ranking
-- Query Optimization
+- COUNT(DISTINCT)
+- Revenue Calculations
+- Percentage Calculations
+- Data Aggregation
+- Analytical Modeling
+- Reusable Reporting Layers
 - Business KPI Development
 - SQL Documentation
 
-## Analytics
+---
 
-- Executive Reporting
-- Customer Analytics
-- Customer Segmentation
-- Revenue Analysis
-- KPI Design
-- Business Metrics
+## Analytics Engineering
+
+- Business Requirements Gathering
 - Report Design
-- Report Grain
-- Business Analysis
+- Report Grain Definition
+- KPI Design
+- Reusable Data Models
+- Layered SQL Transformations
+- Revenue Analysis
+- Customer Analytics
+- Product Analytics
+- Revenue Distribution Analysis
+- Category Performance Analysis
+- Executive Reporting
+- Business Documentation
+
+---
 
 ## Software Engineering
 
 - Git Version Control
 - GitHub Workflow
-- Documentation
+- Conventional Commits
 - Repository Organization
 - Professional SQL Formatting
+- Code Documentation
+- Modular SQL Design
+- Maintainable Reporting Logic
+- Versioned Releases
 
 ---
 
 # 🗺 Project Roadmap
 
-| Milestone | Status |
-|-----------|:------:|
-| Repository Foundation | ✅ |
-| Executive Sales Overview | ✅ |
-| Customer Analytics | ✅ |
-| Product Performance | ⏳ |
-| Employee Performance | ⏳ |
-| Country Sales Analysis | ⏳ |
-| Shipping Analysis | ⏳ |
-| Executive Dashboard | ⏳ |
+| Milestone | Focus | Status | Release |
+|-----------|-------|:------:|:------:|
+| Milestone 1 | Repository Foundation | ✅ | v1.0.0 |
+| Milestone 2 | Customer Analytics | ✅ | v1.1.0 |
+| Milestone 3 | Product Analytics & Reusable Data Models | ✅ | v1.2.0 |
+| Milestone 4 | Employee & Sales Performance | ⏳ | v1.3.0 |
+| Milestone 5 | Geographic Sales Analytics | ⏳ | v1.4.0 |
+| Milestone 6 | Shipping & Operational Analytics | ⏳ | v1.5.0 |
+| Milestone 7 | Executive Dashboard & Business Intelligence | ⏳ | v2.0.0 |
 
 ---
 
@@ -301,6 +495,7 @@ This workflow reflects how analytical reporting is commonly developed in profess
 |----------|-------------|
 | **v1.0.0** | Repository Foundation |
 | **v1.1.0** | Customer Analytics |
+| **v1.2.0** | Product Analytics & Reusable Data Models |
 
 ---
 
@@ -308,13 +503,16 @@ This workflow reflects how analytical reporting is commonly developed in profess
 
 Planned enhancements include:
 
-- SQL Views
-- Performance Optimization
-- Index Analysis
-- Dashboard Visualizations
-- Data Quality Validation
-- Automated Reporting
+- Employee Performance Analytics
+- Geographic Sales Analysis
+- Shipping & Operational Analytics
+- Executive KPI Dashboard
+- Performance Optimization with Indexes
+- Materialized Views
+- SQL Performance Benchmarking
 - Python ETL Pipelines
+- Automated Data Quality Checks
+- Interactive Power BI Dashboard
 
 ---
 
@@ -322,10 +520,12 @@ Planned enhancements include:
 
 **Camilo Patiño**
 
-Aspiring **Data Engineer** focused on building production-quality analytics projects that combine SQL, business thinking, documentation, and software engineering best practices.
+Aspiring **Data Engineer** passionate about building production-quality analytics solutions that combine SQL, business thinking, reusable data models, documentation, and software engineering best practices.
 
-📫 GitHub: https://github.com/campa-dev
+This portfolio reflects my approach to solving business problems through data by following professional Analytics Engineering workflows—from understanding stakeholder requirements to delivering reusable analytical assets and production-ready SQL reports.
+
+📫 **GitHub:** https://github.com/campa-dev
 
 ---
 
-⭐ If you found this project interesting, feel free to explore the reports and follow its progress as new analytical deliverables are added.
+⭐ If you found this project interesting, feel free to explore the reports, review the SQL models, and follow its progress as new analytical deliverables are added.
